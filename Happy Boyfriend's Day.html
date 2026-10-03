@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Boyfriend's Day, My Love! 🤍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        royal: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        handwritten: ['Caveat', 'cursive'],
+                        script: ['Dancing Script', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.12);
+        }
+
+        /* Floating particles */
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.6rem;
+            animation: floatUpAndFade 1.2s ease-out forwards;
+        }
+
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+            }
+            50% {
+                opacity: 0.95;
+                transform: translate(-50%, -100px) scale(1.3) rotate(15deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -180px) scale(0.8) rotate(-15deg);
+            }
+        }
+
+        /* Background Floating Hearts in soft blue/white */
+        .bg-heart {
+            position: absolute;
+            color: rgba(56, 189, 248, 0.35);
+            pointer-events: none;
+            animation: bgHeartFloat 12s infinite linear;
+        }
+
+        @keyframes bgHeartFloat {
+            0% {
+                transform: translateY(105vh) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 3D Flip Card */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4), 0 0 40px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Custom Scrollbar in Blue tones */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f0f9ff; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 text-slate-800 min-h-screen relative overflow-x-hidden select-none">
+
+    <div id="bg-hearts-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 py-6 md:py-10 space-y-16 md:space-y-24">
+
+        <header class="text-center pt-6 md:pt-10 pb-4 relative">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-royal-700 text-sm font-semibold mb-6 shadow-sm animate-bounce border border-royal-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current text-royal-600" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span> I love you Kuchu puchu 💙</span>
+            </div>
+
+            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-4 glow-text leading-tight">
+                Happy Boyfriend's Day,<br class="md:hidden" /> <span class="bg-gradient-to-r from-royal-700 via-ocean-600 to-indigo-600 bg-clip-text text-transparent">My Handsome!</span> 💙
+            </h1>
+
+            <p class="text-lg md:text-2xl font-script text-royal-800 max-w-2xl mx-auto mb-8 leading-relaxed">
+                "To my favorite human and my forever love. Here is a digital love letter filled with our best memories!"
+            </p>
+
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <button id="open-letter-btn" class="group relative px-8 py-4 bg-gradient-to-r from-royal-600 to-ocean-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-royal-300/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3">
+                    <svg class="w-6 h-6 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>Open the Love Letter 💌</span>
+                </button>
+                
+                <a href="#coupons-section" class="px-6 py-4 glass-card text-royal-800 font-semibold rounded-2xl hover:bg-white/90 transition-all duration-300 flex items-center gap-2 border border-royal-100">
+                    <span>Redeem Love Vouchers 🎁</span>
+                </a>
+            </div>
+        </header>
+
+        <section class="glass-card rounded-3xl p-6 md:p-10 text-center relative overflow-hidden border border-white">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-ocean-200/50 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-40 h-40 bg-royal-200/40 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <h2 class="text-xs font-bold uppercase tracking-widest text-royal-600 mb-2">Our Love Journey Counter</h2>
+            <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6">Every Second With You Is Pure Joy</h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                <div class="bg-white/90 rounded-2xl p-4 shadow-sm border border-royal-100">
+                    <span id="timer-days" class="block text-3xl md:text-5xl font-extrabold text-royal-700">000</span>
+                    <span class="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wider">Days</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-4 shadow-sm border border-royal-100">
+                    <span id="timer-hours" class="block text-3xl md:text-5xl font-extrabold text-ocean-600">00</span>
+                    <span class="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wider">Hours</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-4 shadow-sm border border-royal-100">
+                    <span id="timer-minutes" class="block text-3xl md:text-5xl font-extrabold text-royal-600">00</span>
+                    <span class="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wider">Minutes</span>
+                </div>
+                <div class="bg-white/90 rounded-2xl p-4 shadow-sm border border-royal-100">
+                    <span id="timer-seconds" class="block text-3xl md:text-5xl font-extrabold text-indigo-600">00</span>
+                    <span class="text-xs md:text-sm font-semibold text-slate-500 uppercase tracking-wider">Seconds</span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-center items-center gap-2 text-sm text-slate-500">
+                <span>Counting together since:</span>
+                <input type="date" id="start-date-picker" class="bg-white border border-royal-200 rounded-lg px-2 py-1 text-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-royal-400 cursor-pointer shadow-sm" value="2026-01-01">
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-royal-600">Our Preciously Captured Moments</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800">Our Polaroid Memory Wall 📸</h2>
+                <p class="text-slate-600 font-handwritten text-2xl">Click on any photo to flip it & click the zoom icon to view full size!</p>
+            </div>
+
+            <!-- Polaroid Grid displaying all 9 images -->
+            <div id="polaroid-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
+                <!-- Dynamically generated with user photos -->
+            </div>
+        </section>
+
+        <section id="coupons-section" class="space-y-6 scroll-mt-10">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-royal-600">Exclusive Vouchers</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800">Boyfriend Day Coupon Book 🎫</h2>
+                <p class="text-slate-600 text-sm">Click to redeem any of these romantic vouchers !</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Coupons -->
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-royal-100 text-royal-800 rounded-full">Unlimited Uses</span>
+                        <span class="text-2xl">🤗</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">One Tight & Warm Hug</h3>
+                        <p class="text-xs text-slate-500 mt-1">Guaranteed instant stress reliever & endless affection</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-ocean-100 text-ocean-800 rounded-full">Your Pick</span>
+                        <span class="text-2xl">🎬</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Movie Night Command</h3>
+                        <p class="text-xs text-slate-500 mt-1">You choose the movie, and I will bring all the snacks!</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-sky-100 text-sky-800 rounded-full">Chef Service</span>
+                        <span class="text-2xl">🍝</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Favorite Meal Prepared</h3>
+                        <p class="text-xs text-slate-500 mt-1">Tell me your favorite dish, and I'll cook it specially for you</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full">Relaxing</span>
+                        <span class="text-2xl">💆‍♂️</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Head & Shoulder Massage</h3>
+                        <p class="text-xs text-slate-500 mt-1">A soothing session after a long tiring day</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full">Adventure</span>
+                        <span class="text-2xl">🚗</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Late Night Long Drive</h3>
+                        <p class="text-xs text-slate-500 mt-1">Windows down, good music playing, and soft sea breeze</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+
+                <div class="coupon-card glass-card rounded-2xl p-5 relative overflow-hidden border-2 border-dashed border-royal-300 flex flex-col justify-between h-52 group">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Golden Pass</span>
+                        <span class="text-2xl">👑</span>
+                    </div>
+                    <div class="my-auto text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Win Any Debate Free Pass</h3>
+                        <p class="text-xs text-slate-500 mt-1">Instantly grants you victory in 1 playful disagreement!</p>
+                    </div>
+                    <button class="redeem-btn w-full py-2 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm">
+                        Redeem Voucher ✨
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-royal-600">Straight From My Heart</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800">Reasons Why You're My Favorite Person 💙</h2>
+                <p class="text-slate-600 text-sm">A few of the million reasons why you mean everything to me.</p>
+            </div>
+
+            <div id="reasons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically generated by JS -->
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-8 pb-16 border-t border-royal-200/60 space-y-3">
+            <p class="font-script text-3xl text-royal-700">Forever & Always Yours 💙</p>
+            <p class="text-xs text-slate-500">Made with love for my Boyfriend </p>
+        </footer>
+    </div>
+
+    <div class="fixed bottom-4 right-4 z-40">
+        <div id="music-player" class="glass-card p-3 rounded-2xl shadow-xl flex items-center gap-3 border border-white/80 transition-all duration-300 hover:scale-105">
+            <button id="play-audio-btn" class="w-10 h-10 rounded-full bg-royal-600 text-white flex items-center justify-center shadow-md hover:bg-royal-700 transition-colors">
+                <svg id="play-icon" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pause-icon" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <div class="text-xs pr-2">
+                <p class="font-bold text-slate-800 leading-none">Romantic Chimes</p>
+                <p id="audio-status" class="text-[10px] text-slate-500 mt-0.5">Click for ambient melody</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOVE LETTER MODAL -->
+    <div id="letter-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="modal-box" class="relative w-full max-w-2xl bg-[#fafcff] rounded-3xl p-6 md:p-10 shadow-2xl border border-royal-100 transform scale-95 transition-transform duration-300 overflow-hidden my-auto max-h-[90vh] overflow-y-auto">
+            
+            <button id="close-letter-btn" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-royal-100 hover:text-royal-600 transition-colors">
+                ✕
+            </button>
+
+            <div class="text-center mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-royal-600">A Message For My Boyfriend</span>
+                <h3 class="text-3xl font-script text-slate-800 mt-1">To My Love,</h3>
+            </div>
+
+            <div class="space-y-4 text-slate-700 font-sans text-sm md:text-base leading-relaxed border-l-2 border-royal-300 pl-4 md:pl-6 my-6 italic">
+                <p>
+                    Happy Boyfriend's Day! Today is all about celebrating you and the endless warmth, laughter, and happiness you bring into my world every single day.
+                </p>
+                <p>
+                    Look at those pictures of us — from being a colleague to love of my life. I am grateful for you . You are the sunshine to my darkness. 
+                </p>
+                <p>
+                    Thank you for being my rock, my best friend, and my biggest source of smiles. I hope this website reminds you just how deeply you are loved! 
+                </p>
+            </div>
+
+            <div class="text-right pt-4">
+                <p class="font-script text-2xl text-royal-700 font-bold">Forever Yours, Rani 💙</p>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button id="seal-letter-btn" class="px-6 py-2.5 bg-royal-600 text-white text-sm font-bold rounded-xl hover:bg-royal-700 transition-colors shadow-md">
+                    Send A Hug & Close Letter 🤗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="relative max-w-3xl w-full bg-white rounded-3xl p-4 md:p-6 shadow-2xl flex flex-col items-center border border-sky-100">
+            <button id="close-lightbox" class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-royal-600 text-white font-bold flex items-center justify-center shadow-lg hover:bg-royal-700">✕</button>
+            <img id="lightbox-img" src="" alt="Enlarged Memory" class="max-h-[70vh] w-auto object-contain rounded-2xl shadow-md mb-4" />
+            <h3 id="lightbox-title" class="font-handwritten text-3xl font-bold text-royal-700 text-center"></h3>
+            <p id="lightbox-note" class="text-slate-600 text-sm text-center max-w-lg mt-1 italic"></p>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Photos Data Array containing all 9 user images ---
+        const userPhotos = [
+            {
+                url: 'IMG_20260929_124353_175(1).jpg',
+                title: 'Sunny Beach Embrace 🌊',
+                note: 'Holding you close while listening to the calm sea waves is my absolute happy place.'
+            },
+            {
+                url: 'IMG-20260914-WA0083.jpg',
+                title: 'Sweetest Cheek Kiss 😘',
+                note: 'Every single kiss from you feels like magic and fills my heart with endless joy.'
+            },
+            {
+                url: '20260304_102635.jpg',
+                title: 'Love resting on your shoulder',
+                note: 'I love how we can be completely goofy together and i can just calm down on your shoulder. Your smile brightens my darkest days!'
+            },
+            {
+                url: 'IMG-20260711-WA0071.jpg',
+                title: 'Glam Night Out ✨',
+                note: 'Looking extra stylish together! Every date night with you is completely unforgettable.'
+            },
+            {
+                url: 'IMG-20260525-WA0056.jpg',
+                title: 'Birthday special',
+                note: 'Flowers, cake , gifts, payal —thank you for making my birthday happy and special.'
+            },
+            {
+                url: '20260304_102635.jpg',
+                title: 'A day with Rishi 🛌',
+                note: 'Resting against you peacefully. There is no comfort greater than being right beside you.'
+            },
+            {
+                url: '20260109_214520.jpg',
+                title: 'Arcade Fun & Getting closure 🕹️',
+                note: 'Games, laughter, and warm hugs! The day when we started getting close in relationship.'
+            },
+            {
+                url: 'IMG-20260215-WA0037.jpg',
+                title: 'Elegant Elevator Selfie 🖤',
+                note: 'The night i got to know your feelings, your love'
+            },
+            {
+                url: '20251213_193537.jpg',
+                title: 'START OF LOVE STORY',
+                note: 'Glasses, curls, and smiles. Less than a lover but more like a friends!'
+            }
+        ];
+
+        // --- 2. Render Polaroids with blue theme backings ---
+        function renderPolaroids() {
+            const grid = document.getElementById('polaroid-grid');
+            grid.innerHTML = '';
+
+            userPhotos.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'perspective-1000 h-[26rem] group cursor-pointer';
+                card.innerHTML = `
+                    <div class="card-inner relative w-full h-full transform-style-3d duration-500 shadow-xl rounded-2xl">
+                        <!-- Front -->
+                        <div class="absolute inset-0 bg-white p-4 pb-5 rounded-2xl flex flex-col justify-between border border-sky-100 backface-hidden">
+                            <div class="relative w-full h-72 overflow-hidden rounded-xl bg-slate-100">
+                                <img src="${item.url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/bae6fd/0369a1?text=${encodeURIComponent(item.title)}'">
+                                <button onclick="event.stopPropagation(); openLightbox(${index})" class="absolute top-2 right-2 p-2 bg-black/40 hover:bg-royal-600 text-white rounded-full backdrop-blur-sm transition-colors" title="Zoom image">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                                </button>
+                            </div>
+                            <div class="text-center pt-2">
+                                <p class="font-handwritten text-2xl text-slate-800 font-bold truncate">${item.title}</p>
+                                <span class="text-[10px] text-royal-500 font-semibold tracking-wider uppercase">Tap to flip 🔄</span>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-royal-800 via-royal-700 to-ocean-700 text-white p-6 rounded-2xl flex flex-col justify-between rotate-y-180 backface-hidden shadow-2xl">
+                            <div>
+                                <span class="text-3xl">💙</span>
+                                <h4 class="font-handwritten text-3xl font-bold mt-2 border-b border-sky-300/30 pb-2 text-sky-100">${item.title}</h4>
+                                <p class="text-sm font-sans mt-4 leading-relaxed text-sky-50 opacity-95">${item.note}</p>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-sky-200 pt-2 border-t border-sky-300/30">
+                                <span class="italic font-script text-base">National Boyfriend Day</span>
+                                <span>Click to flip back ↺</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const inner = card.querySelector('.card-inner');
+                card.addEventListener('click', () => {
+                    inner.classList.toggle('rotate-y-180');
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Lightbox Popup Handler
+        function openLightbox(index) {
+            const photo = userPhotos[index];
+            document.getElementById('lightbox-img').src = photo.url;
+            document.getElementById('lightbox-title').innerText = photo.title;
+            document.getElementById('lightbox-note').innerText = `"${photo.note}"`;
+            
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        document.getElementById('close-lightbox').addEventListener('click', () => {
+            document.getElementById('lightbox-modal').classList.add('opacity-0', 'pointer-events-none');
+        });
+
+        // --- 3. Reasons Grid Generation ---
+        const reasons = [
+            { icon: '😜', title: 'Your Playful Sense of Humor', desc: 'From making silly faces to radebaiting me , you always make me laugh.' },
+            { icon: '🤗', title: 'The Comfort of Your Hugs', desc: 'Whenever you hold me tight, all my anxieties fade away instantly. You feel like my peaceful harbor.' },
+            { icon: '✨', title: 'How Dashing You Look', desc: 'Whether in a casual shirt or dressed up, you always look incredibly handsome to me.' },
+            { icon: '🎮', title: 'Fun Dates & Adventures', desc: 'From arcade games and street walk dates to flower surprises, everything is fun with you.' },
+            { icon: '🛡️', title: 'Your Caring & Gentle Heart', desc: 'You protect me, cherish me, and make me feel like the luckiest person in the entire world.' },
+            { icon: '💙', title: 'Simply Being You', desc: 'I love everything about you — your kindness, your warmth, your voice, and your sweet soul.' }
+        ];
+
+        const reasonsGrid = document.getElementById('reasons-grid');
+        reasons.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = 'glass-card rounded-2xl p-6 border border-white hover:shadow-lg transition-all duration-300 cursor-pointer group hover:-translate-y-1';
+            card.innerHTML = `
+                <div class="text-3xl mb-3 group-hover:scale-110 transition-transform">${item.icon}</div>
+                <h4 class="text-lg font-bold text-slate-800 mb-2">${item.title}</h4>
+                <p class="text-xs md:text-sm text-slate-600 leading-relaxed">${item.desc}</p>
+            `;
+            reasonsGrid.appendChild(card);
+        });
+
+        // --- 4. Background Floating Blue Hearts ---
+        function createBgHearts() {
+            const container = document.getElementById('bg-hearts-container');
+            const heartCount = 20;
+            const heartIcons = ['💙', '🩵', '🤍', '✨', '💎'];
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'bg-heart text-lg md:text-2xl';
+                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 12}s`;
+                heart.style.animationDuration = `${8 + Math.random() * 8}s`;
+                container.appendChild(heart);
+            }
+        }
+
+        // --- 5. Interactive Click Blue Hearts ---
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            const hearts = ['💙', '🩵', '🤍', '✨', '🥰', '🌊'];
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = `${e.clientX}px`;
+            heart.style.top = `${e.clientY}px`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 1200);
+        });
+
+        // --- 6. Timer Count ---
+        let startDate = new Date('2023-01-01T00:00:00');
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff < 0) return;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timer-days').innerText = String(days).padStart(3, '0');
+            document.getElementById('timer-hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('timer-minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('timer-seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        document.getElementById('start-date-picker').addEventListener('change', (e) => {
+            if (e.target.value) {
+                startDate = new Date(e.target.value + 'T00:00:00');
+                updateTimer();
+            }
+        });
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- 7. Coupon Redeem Handler ---
+        document.querySelectorAll('.coupon-card').forEach(card => {
+            const btn = card.querySelector('.redeem-btn');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!card.classList.contains('redeemed')) {
+                    card.classList.add('redeemed');
+                    btn.innerText = 'Redeemed! 💙';
+                    btn.className = 'w-full py-2 bg-emerald-500 text-white font-bold rounded-xl text-xs transition-colors shadow-sm';
+                    card.style.borderColor = '#10b981';
+                    
+                    if (typeof confetti === 'function') {
+                        confetti({ 
+                            particleCount: 50, 
+                            spread: 60, 
+                            origin: { y: 0.8 },
+                            colors: ['#0284c7', '#38bdf8', '#2563eb', '#ffffff'] 
+                        });
+                    }
+                }
+            });
+        });
+
+        // --- 8. Love Letter Modal Handlers ---
+        const letterModal = document.getElementById('letter-modal');
+        const modalBox = document.getElementById('modal-box');
+        
+        function openModal() {
+            letterModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalBox.classList.remove('scale-95');
+            modalBox.classList.add('scale-100');
+            if (typeof confetti === 'function') {
+                confetti({ 
+                    particleCount: 80, 
+                    spread: 80, 
+                    origin: { y: 0.5 },
+                    colors: ['#0284c7', '#38bdf8', '#2563eb', '#ffffff']
+                });
+            }
+        }
+
+        function closeModal() {
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            letterModal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        document.getElementById('open-letter-btn').addEventListener('click', openModal);
+        document.getElementById('close-letter-btn').addEventListener('click', closeModal);
+        document.getElementById('seal-letter-btn').addEventListener('click', closeModal);
+
+        // --- 9. Music Sound Synthesizer Chime ---
+        let audioCtx = null;
+        let isPlaying = false;
+        let melodyInterval = null;
+
+        const playBtn = document.getElementById('play-audio-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const audioStatus = document.getElementById('audio-status');
+
+        function playRomanticChime() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const notes = [293.66, 349.23, 440.00, 523.25, 587.33, 659.25]; // Soft blue chord (D Minor / F Major resonant)
+            const freq = notes[Math.floor(Math.random() * notes.length)];
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 2.6);
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                isPlaying = true;
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                audioStatus.innerText = 'Playing soft melody ♪';
+                playRomanticChime();
+                melodyInterval = setInterval(playRomanticChime, 1800);
+            } else {
+                isPlaying = false;
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                audioStatus.innerText = 'Paused';
+                if (melodyInterval) clearInterval(melodyInterval);
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPolaroids();
+            createBgHearts();
+        });
+    </script>
+</body>
+</html>
